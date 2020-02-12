@@ -7,7 +7,10 @@ from .models import Choice, Question
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
+    context = {
+        'latest_question_list': latest_question_list
+    }
+
     return render(request, 'polls/index.html', context)
 
 
@@ -36,9 +39,11 @@ def vote(request, question_id):
             'question': question,
             'error_message': 'You didn\'t select a choice.'
         }
+
         return render(request, 'polls/detail.html', context)
     else:
         selected_choice.votes = F('votes') + 1
         selected_choice.save()
         selected_choice.refresh_from_db()
+
         return HttpResponseRedirect(reverse('polls:results', args=(question.id, )))
