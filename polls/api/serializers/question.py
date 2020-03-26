@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models.question import Question
+from polls.models.question import Question
 
 
 class QuestionSerializer(serializers.Serializer):
