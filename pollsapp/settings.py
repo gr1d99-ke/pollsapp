@@ -25,7 +25,7 @@ SECRET_KEY = '2%6*k@cr5v&p0by*y#837#z1d_lwp!^@mlr(pbyt1j0ny&fv3g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['polls.local', 'thor.polls.local']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'polls',
+    'tenants',
 
     'django_extensions',
     'rest_framework',
@@ -127,3 +128,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ACCOUNT_LOGOUT_ON_GET = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
