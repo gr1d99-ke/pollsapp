@@ -26,4 +26,5 @@ class QuestionSerializer(serializers.Serializer):
         """
         instance.question_text = validated_data.get('question_text', instance.question_text)
         instance.pub_date = validated_data.get('pub_date', instance.pub_date)
+        instance.save()
         return instance

@@ -3,8 +3,10 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
+from tenants.models import TenantAwareModel
 
-class Question(models.Model):
+
+class Question(TenantAwareModel):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
 

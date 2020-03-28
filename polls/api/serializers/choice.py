@@ -13,4 +13,5 @@ class ChoiceSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.choice_text = validated_data.get('choice_text', instance.choice_text)
+        instance.save()
         return instance
