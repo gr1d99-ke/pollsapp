@@ -1,6 +1,7 @@
 from django.db.models import F
 
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,6 +15,8 @@ class QuestionView(APIView):
     """
     List all `Questions` or Create a new `Question`
     """
+
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, format=None):
         questions = Question.objects.all()
@@ -34,6 +37,8 @@ class QuestionDetailView(QuestionMixin, APIView):
     """
     Retrieve, Update or Destroy a Question
     """
+
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, id, format=None):
         question = self.get_question_obj(id)
@@ -61,6 +66,8 @@ class QuestionChoicesView(QuestionMixin, APIView):
     List all `Choices` for a `Question` or Create a new `Choice`
     """
 
+    permission_classes = [IsAuthenticated, ]
+
     def get(self, request, id, format=None):
         question = self.get_question_obj(id)
         choices = question.choices.all()
@@ -82,6 +89,7 @@ class QuestionChoicesDetailView(QuestionMixin, APIView):
     """
     Retrieve, Update or Destroy a `Question` `Choice`
     """
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request, id, choice_id, format=None):
         question = self.get_question_obj(id)
@@ -111,6 +119,8 @@ class VotesView(QuestionMixin, APIView):
     """
     Vote for a specific `Choice`
     """
+
+    permission_classes = [IsAuthenticated, ]
 
     def put(self, request, id, choice_id, format=None):
         question = self.get_question_obj(id)

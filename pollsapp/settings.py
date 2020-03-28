@@ -40,8 +40,10 @@ INSTALLED_APPS = [
 
     'polls',
 
+    'django_extensions',
     'rest_framework',
-    'django_extensions'
+    'rest_framework.authtoken',
+    'rest_auth'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ACCOUNT_LOGOUT_ON_GET = True
