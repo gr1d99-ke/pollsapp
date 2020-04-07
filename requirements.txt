@@ -2,3 +2,4 @@ Django==3.0.3
 djangorestframework
 django-extensions
 django-rest-auth
+psycopg2-binary

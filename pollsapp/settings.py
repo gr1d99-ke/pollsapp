@@ -25,7 +25,7 @@ SECRET_KEY = '2%6*k@cr5v&p0by*y#837#z1d_lwp!^@mlr(pbyt1j0ny&fv3g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['polls.local', 'thor.polls.local']
+ALLOWED_HOSTS = ['potter.polls.local', 'thor.polls.local']
 
 
 # Application definition
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tenants.middleware.TenantMiddleware'
 ]
 
 ROOT_URLCONF = 'pollsapp.urls'
@@ -83,8 +84,12 @@ WSGI_APPLICATION = 'pollsapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pollsapp',
+        'USER': 'gr1d99',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -132,6 +137,6 @@ ACCOUNT_LOGOUT_ON_GET = True
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
+        # 'rest_framework.authentication.SessionAuthentication'
     ]
 }

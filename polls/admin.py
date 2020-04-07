@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tenants.utils import tenant_from_request
+from tenants.utils import set_tenant_schema_for_request
 
 from .models import Choice, Question
 
@@ -8,7 +8,6 @@ from .models import Choice, Question
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
-    readonly_fields = ['tenant', ]
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -22,24 +21,21 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
     def get_queryset(self, request):
+        set_tenant_schema_for_request(request)
         queryset = super().get_queryset(request)
-        tenant = tenant_from_request(request)
-        queryset = queryset.filter(tenant=tenant)
         return queryset
 
     def save_model(self, request, obj, form, change):
-        tenant = tenant_from_request(request)
-        obj.tenant = tenant
+        set_tenant_schema_for_request(request)
         super().save_model(request, obj, form, change)
 
     def save_formset(self, request, form, formset, change):
-        tenant = tenant_from_request(request)
+        set_tenant_schema_for_request(request)
         instances = formset.save(commit=False)
         for obj in formset.deleted_objects:
             obj.delete()
 
         for instance in instances:
-            instance.tenant = tenant
             instance.save()
 
         formset.save_m2m()
