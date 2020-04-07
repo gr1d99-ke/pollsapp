@@ -3,10 +3,8 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-from tenants.models import TenantAwareModel
 
-
-class Question(TenantAwareModel):
+class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
 
@@ -18,4 +16,4 @@ class Question(TenantAwareModel):
     was_published_recently.short_description = 'Published Recently?'
 
     def __str__(self):
-        return self.question_text
+        return "<{}>".format(self.question_text)
