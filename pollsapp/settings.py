@@ -90,8 +90,28 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432'
-    }
+    },
+    'thor': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'thor_db',
+        'USER': 'gr1d99',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    },
+    'potter': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'potter_db',
+        'USER': 'gr1d99',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    },
 }
+
+DATABASE_ROUTERS = [
+    'tenants.router.TenantRouter'
+]
 
 
 # Password validation

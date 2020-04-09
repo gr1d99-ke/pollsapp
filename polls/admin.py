@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from tenants.utils import set_tenant_schema_for_request
-
 from .models import Choice, Question
 
 
@@ -21,16 +19,13 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
     def get_queryset(self, request):
-        set_tenant_schema_for_request(request)
         queryset = super().get_queryset(request)
         return queryset
 
     def save_model(self, request, obj, form, change):
-        set_tenant_schema_for_request(request)
         super().save_model(request, obj, form, change)
 
     def save_formset(self, request, form, formset, change):
-        set_tenant_schema_for_request(request)
         instances = formset.save(commit=False)
         for obj in formset.deleted_objects:
             obj.delete()
