@@ -5,8 +5,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from tenants.utils import set_tenant_schema_for_request
-
 from polls.mixins.question import QuestionMixin
 from polls.models.question import Question
 from polls.api.serializers.question import QuestionSerializer
@@ -21,13 +19,11 @@ class QuestionView(APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, format=None):
-        set_tenant_schema_for_request(request)
         questions = Question.objects.all()
         serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        set_tenant_schema_for_request(request)
         serializer = QuestionSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -45,13 +41,11 @@ class QuestionDetailView(QuestionMixin, APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         serializer = QuestionSerializer(question)
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         serializer = QuestionSerializer(question, data=request.data)
 
@@ -62,7 +56,6 @@ class QuestionDetailView(QuestionMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         question.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -76,14 +69,12 @@ class QuestionChoicesView(QuestionMixin, APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         choices = question.choices.all()
         serializer = ChoiceSerializer(choices, many=True)
         return Response(serializer.data)
 
     def post(self, request, id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         serializer = ChoiceSerializer(data=request.data)
 
@@ -101,7 +92,6 @@ class QuestionChoicesDetailView(QuestionMixin, APIView):
     permission_classes = [IsAuthenticated, ]
 
     def get(self, request, id, choice_id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         choice = self.get_choice_obj(request, question, choice_id)
         serializer = ChoiceSerializer(choice)
@@ -119,7 +109,6 @@ class QuestionChoicesDetailView(QuestionMixin, APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, choice_id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         choice = self.get_choice_obj(request, question, choice_id)
         choice.delete()
@@ -134,7 +123,6 @@ class VotesView(QuestionMixin, APIView):
     permission_classes = [IsAuthenticated, ]
 
     def put(self, request, id, choice_id, format=None):
-        set_tenant_schema_for_request(request)
         question = self.get_question_obj(request, id)
         choice = self.get_choice_obj(request, question, choice_id)
         choice.votes = F('votes') + 1
